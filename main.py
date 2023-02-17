@@ -64,7 +64,6 @@ keyboardRef = types.ReplyKeyboardMarkup(keyboard=buttonsRef, resize_keyboard=Tru
 async def send_welcome(message: types.Message):
     await message.answer("Привет!\nЯ бот DriveMeNuts!", reply_markup=keyboardStart)
 
-
 @dp.message_handler(content_types=types.ContentTypes.TEXT)
 async def handle_message(message: types.Message):
     match message.text:
