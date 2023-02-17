@@ -1,16 +1,39 @@
-# This is a sample Python script.
+import logging
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from aiogram import Bot, Dispatcher, executor, types
+from aiogram.dispatcher.filters import Text
+
+API_TOKEN = 'BOT TOKEN HERE'
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+API_TOKEN = "6059259592:AAHZGLUzC7DijF6XCAnHbU1bGz4akGETYdA"
+# Initialize bot and dispatcher
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher(bot)
+
+buttonsBilets = [
+    [types.KeyboardButton(text='Билеты АВ'),
+     types.KeyboardButton(text='Экзамен')],
+    [types.KeyboardButton(text='Темы'),
+     types.KeyboardButton(text='Назад...')]
+]
+
+buttonsStartKB = [
+    [types.KeyboardButton(text='Билеты'),
+     types.KeyboardButton(text='Квиз')],
+    [types.KeyboardButton(text='Теория'),
+     types.KeyboardButton(text='Справка'),
+     types.KeyboardButton(text='Статистика')]
+]
+keyboardStart = types.ReplyKeyboardMarkup(keyboard=buttonsStartKB, resize_keyboard=True)
+keyboardBilets = types.ReplyKeyboardMarkup(keyboard=buttonsBilets, resize_keyboard=True)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@dp.message_handler(commands=['start', 'help'])
+async def send_welcome(message: types.Message):
+    await message.answer("Привет!\nЯ бот DriveMeNuts!\nЕбал твою мамашу", reply_markup=keyboardStart)
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    executor.start_polling(dp, skip_updates=True)
