@@ -1,7 +1,6 @@
 import logging
 from aiogram import Bot, Dispatcher, executor, types
 
-
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 API_TOKEN = "6059259592:AAHZGLUzC7DijF6XCAnHbU1bGz4akGETYdA"
@@ -42,8 +41,7 @@ buttonsTheory = [
     [types.InlineKeyboardButton(text='7', callback_data='7'),
      types.InlineKeyboardButton(text='8', callback_data='8')],
     [types.InlineKeyboardButton(text='9', callback_data='9'),
-     types.InlineKeyboardButton(text='10', callback_data='10')],
-    [types.InlineKeyboardButton(text='Назад...', callback_data='back')]
+     types.InlineKeyboardButton(text='10', callback_data='10')]
 ]
 
 buttonsStatistic = [
@@ -63,7 +61,7 @@ buttonsRef = [
 keyboardStart = types.ReplyKeyboardMarkup(keyboard=buttonsStartKB, resize_keyboard=True)
 keyboardBilets = types.ReplyKeyboardMarkup(keyboard=buttonsBilets, resize_keyboard=True)
 keyboardQuiz = types.ReplyKeyboardMarkup(keyboard=buttonsQuiz, resize_keyboard=True)
-keyboardTheory = types.InlineKeyboardMarkup(inline_keyboard=buttonsTheory, resize_keyboard = True)
+keyboardTheory = types.InlineKeyboardMarkup(inline_keyboard=buttonsTheory, resize_keyboard=True)
 keyboardStatistic = types.ReplyKeyboardMarkup(keyboard=buttonsStatistic, resize_keyboard=True)
 keyboardRef = types.ReplyKeyboardMarkup(keyboard=buttonsRef, resize_keyboard=True)
 
@@ -71,6 +69,7 @@ keyboardRef = types.ReplyKeyboardMarkup(keyboard=buttonsRef, resize_keyboard=Tru
 @dp.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
     await message.answer("Привет!\nЯ бот DriveMeNuts!", reply_markup=keyboardStart)
+
 
 @dp.message_handler(content_types=types.ContentTypes.TEXT)
 async def handle_message(message: types.Message):
@@ -91,23 +90,15 @@ async def handle_message(message: types.Message):
             await message.answer("temp")
 
 
-
-
 # Задается хэндлер и список колбэков которые его вызывают
-@dp.callback_query_handler(text=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'back'])
+@dp.callback_query_handler(text=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
 async def callback_theory(query: types.CallbackQuery):
     # Получаем текст кнопки, чтобы по ней потом подбирать файл
     button_text = query.data
-
-    if query.data == 'back':
-        await bot.send_message(query.from_user.id, reply_markup=keyboardStart)
-    else:
-        await bot.answer_callback_query(query.id)
-        # Отправляем файл с соответствующим названием
-        with open(f'src/theory/pdf/{button_text}.pdf', 'rb') as file:
-            await bot.send_document(query.from_user.id, file, caption=f"Теория {button_text}")
-
-
+    await bot.answer_callback_query(query.id)
+    # Отправляем файл с соответствующим названием
+    with open(f'src/theory/pdf/{button_text}.pdf', 'rb') as file:
+        await bot.send_document(query.from_user.id, file, caption=f"Теория {button_text}")
 
 
 if __name__ == '__main__':
