@@ -80,7 +80,7 @@ async def handle_message(message: types.Message):
         case 'Квиз🚦':
             await message.answer("temp", reply_markup=keyboardQuiz)
         case 'Теория📚':
-            await message.answer('temp', reply_markup=keyboardTheory)
+            await message.answer('Теория', reply_markup=keyboardTheory)
         case 'Справка📃':
             await message.answer('temp', reply_markup=keyboardRef)
         case 'Статистика📊':
@@ -89,8 +89,7 @@ async def handle_message(message: types.Message):
             await message.answer("Меню", reply_markup=keyboardStart)
         case _:
             await message.answer("temp")
-    if message.content_type == types.ContentType.TEXT and message.text == 'Теория📚':
-        await message.answer('Выберите тему:', reply_markup=keyboardTheory)
+
 
 
 
