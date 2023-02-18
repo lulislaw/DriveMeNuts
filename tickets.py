@@ -22,4 +22,4 @@ def getBilet(numBilet):
         my_list.append(Ticket(data['nubmerQuest'],data['textQuest'],data['sucAns'],data['ans1'],data['ans2'],data['ans3'],data['ans4'],data['ans5'],pathimg))
 
     return my_list
-print(getBilet(1)[0].image)
+
