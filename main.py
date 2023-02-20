@@ -26,38 +26,29 @@ for i in range(0, 26):
 with open("src/theory/theoryPickedIntro.txt") as file:
     theoryPickedIntro = file.read()
 
-keyboardStart = types.ReplyKeyboardMarkup(keyboard=boards.buttonsStartKB, resize_keyboard=True)
-keyboardBilets = types.ReplyKeyboardMarkup(keyboard=boards.buttonsBilets, resize_keyboard=True)
-keyboardQuiz = types.ReplyKeyboardMarkup(keyboard=boards.buttonsQuiz, resize_keyboard=True)
-keyboardTheory = types.InlineKeyboardMarkup(inline_keyboard=boards.buttonsTheory, resize_keyboard=True)
-keyboardStatistic = types.ReplyKeyboardMarkup(keyboard=boards.buttonsStatistic, resize_keyboard=True)
-keyboardRef = types.ReplyKeyboardMarkup(keyboard=boards.buttonsRef, resize_keyboard=True)
-keyboardAB = types.InlineKeyboardMarkup(inline_keyboard=boards.buttonsBiletAB, resize_keyboard=True)
-keyboardAnswers = types.InlineKeyboardMarkup(inline_keyboard=boards.buttonsAnswers, resize_keyboard=True)
-
 
 @dp.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
-    await message.answer("Привет!\nЯ бот DriveMeNuts!", reply_markup=keyboardStart)
+    await message.answer("Привет!\nЯ бот DriveMeNuts!", reply_markup=boards.keyboardStart)
 
 
 @dp.message_handler(content_types=types.ContentTypes.TEXT)
 async def handle_message(message: types.Message):
     match message.text:
         case 'Билеты🚗':
-            await message.answer("Выберите вариант тестирования", reply_markup=keyboardBilets)
+            await message.answer("Выберите вариант тестирования", reply_markup=boards.keyboardBilets)
         case 'Билеты АВ':
-            await message.answer("Билеты АВ", reply_markup=keyboardAB)
+            await message.answer("Билеты АВ", reply_markup=boards.keyboardAB)
         case 'Квиз🚦':
-            await message.answer("temp", reply_markup=keyboardQuiz)
+            await message.answer("temp", reply_markup=boards.keyboardQuiz)
         case 'Теория📚':
-            await message.answer(theoryPickedIntro, reply_markup=keyboardTheory, parse_mode="html")
+            await message.answer(theoryPickedIntro, reply_markup=boards.keyboardTheory, parse_mode="html")
         case 'Справка📃':
-            await message.answer('temp', reply_markup=keyboardRef)
+            await message.answer('temp', reply_markup=boards.keyboardRef)
         case 'Статистика📊':
-            await message.answer(f'{listMistake}', reply_markup=keyboardStatistic)
+            await message.answer(f'{listMistake}', reply_markup=boards.keyboardStatistic)
         case 'Назад...':
-            await message.answer("Меню", reply_markup=keyboardStart)
+            await message.answer("Меню", reply_markup=boards.keyboardStart)
         case _:
             await message.answer("temp")
 
@@ -91,7 +82,7 @@ async def process_callback_button(callback_query: types.CallbackQuery):
     await bot.send_message(chat_id=callback_query.message.chat.id, text=f'Билет №{button_number}')
     await bot.send_message(chat_id=callback_query.message.chat.id,
                            text=f'{list[currentAsk].num}\n{list[currentAsk].text}\n{list[currentAsk].a1}\n{list[currentAsk].a2}\n{list[currentAsk].a3}\n{list[currentAsk].a4}\n{list[currentAsk].a5}',
-                           reply_markup=keyboardAnswers)
+                           reply_markup=boards.getAnsKeyBoard(list, currentAsk))
 
 
 @dp.callback_query_handler(lambda c: c.data in ['ans1', 'ans2', 'ans3', 'ans4', 'ans5'])
@@ -117,9 +108,9 @@ async def process_callback_button(callback_query: types.CallbackQuery):
                                  photo=photo)
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=f'{list[currentAsk].num}\n{list[currentAsk].text}\n{list[currentAsk].a1}\n{list[currentAsk].a2}\n{list[currentAsk].a3}\n{list[currentAsk].a4}\n{list[currentAsk].a5}',
-                               reply_markup=keyboardAnswers)
+                               reply_markup=boards.getAnsKeyBoard(list, currentAsk))
     else:
-        await bot.send_message(chat_id=callback_query.message.chat.id, text=f'Ошибки в {nummistake}', reply_markup=keyboardStart)
+        await bot.send_message(chat_id=callback_query.message.chat.id, text=f'Ошибки в {nummistake}', reply_markup=boards.keyboardStart)
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)

@@ -57,17 +57,6 @@ buttonsBiletAB = [
 
 ]
 
-buttonsAnswers = [
-
-    [types.InlineKeyboardButton(text='1', callback_data='ans1'),
-     types.InlineKeyboardButton(text='2', callback_data='ans2'),
-     types.InlineKeyboardButton(text='3', callback_data='ans3'),
-     types.InlineKeyboardButton(text='4', callback_data='ans4'),
-     types.InlineKeyboardButton(text='5', callback_data='ans5')]
-]
-
-
-
 buttonsStatistic = [
     [types.KeyboardButton(text='Statistic1'),
      types.KeyboardButton(text='Statistic2')],
@@ -103,3 +92,39 @@ buttonsQuiz = [
     [types.KeyboardButton(text='quiz3'),
      types.KeyboardButton(text='Назад...')]
 ]
+
+def getAnsKeyBoard(list, x):
+    buttonsAnswers = []
+    if list[x].a4 == "":
+        buttonsAnswers = [
+            [types.InlineKeyboardButton(text='1', callback_data='ans1'),
+             types.InlineKeyboardButton(text='2', callback_data='ans2'),
+             types.InlineKeyboardButton(text='3', callback_data='ans3')]
+        ]
+    elif list[x].a5 == "":
+        buttonsAnswers = [
+            [types.InlineKeyboardButton(text='1', callback_data='ans1'),
+             types.InlineKeyboardButton(text='2', callback_data='ans2'),
+             types.InlineKeyboardButton(text='3', callback_data='ans3'),
+             types.InlineKeyboardButton(text='4', callback_data='ans4')]
+        ]
+    else:
+        buttonsAnswers = [
+            [types.InlineKeyboardButton(text='1', callback_data='ans1'),
+             types.InlineKeyboardButton(text='2', callback_data='ans2'),
+             types.InlineKeyboardButton(text='3', callback_data='ans3'),
+             types.InlineKeyboardButton(text='4', callback_data='ans4'),
+             types.InlineKeyboardButton(text='5', callback_data='ans5')]
+        ]
+
+    keyboardAnswers = types.InlineKeyboardMarkup(inline_keyboard=buttonsAnswers, resize_keyboard=True)
+    return keyboardAnswers
+
+
+keyboardStart = types.ReplyKeyboardMarkup(keyboard=buttonsStartKB, resize_keyboard=True)
+keyboardBilets = types.ReplyKeyboardMarkup(keyboard=buttonsBilets, resize_keyboard=True)
+keyboardQuiz = types.ReplyKeyboardMarkup(keyboard=buttonsQuiz, resize_keyboard=True)
+keyboardTheory = types.InlineKeyboardMarkup(inline_keyboard=buttonsTheory, resize_keyboard=True)
+keyboardStatistic = types.ReplyKeyboardMarkup(keyboard=buttonsStatistic, resize_keyboard=True)
+keyboardRef = types.ReplyKeyboardMarkup(keyboard=buttonsRef, resize_keyboard=True)
+keyboardAB = types.InlineKeyboardMarkup(inline_keyboard=buttonsBiletAB, resize_keyboard=True)
